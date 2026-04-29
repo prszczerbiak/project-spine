@@ -47,7 +47,7 @@ _MEAN = (0.485, 0.456, 0.406)
 _STD = (0.229, 0.224, 0.225)
 
 NUM_LANDMARKS = 68
-IMAGE_SIZE = (512, 512)
+IMAGE_SIZE = (768, 768)
 
 
 # ---------------------------------------------------------------------------
@@ -157,12 +157,25 @@ def build_landmark_model(num_landmarks: int = NUM_LANDMARKS) -> nn.Module:
     in_features = backbone.fc.in_features
 
     backbone.fc = nn.Sequential(
-        nn.Dropout(p=0.3),
-        nn.Linear(in_features, 512),
+        # Warstwa 1: 2048 -> 1024
+        nn.Linear(in_features, 1024),
         nn.ReLU(inplace=True),
+        nn.BatchNorm1d(1024),
+        nn.Dropout(p=0.3),
+        
+        # Warstwa 2: 1024 -> 512
+        nn.Linear(1024, 512),
+        nn.ReLU(inplace=True),
+        nn.BatchNorm1d(512),
         nn.Dropout(p=0.2),
-        nn.Linear(512, num_landmarks * 2),
-        nn.Sigmoid(),  # wymusza zakres [0, 1] — zgodny z normalizacją AASCE
+        
+        # Warstwa 3: 512 -> 256
+        nn.Linear(512, 256),
+        nn.ReLU(inplace=True),
+        
+        # Wyjście: 256 -> 136 (68 punktów x 2)
+        nn.Linear(256, num_landmarks * 2),
+        nn.Sigmoid()
     )
 
     return backbone
