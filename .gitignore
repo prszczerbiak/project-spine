@@ -1,0 +1,20 @@
+data/
+models/*.pth
+models/*.onnx
+
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+spine.egg-info/
+project_spine.egg-info/
+dist/
+build/
+
+.env
+.env.example
+!.env.example  # Pozwala zachować wzór pliku, ale nie same dane
+
+.vscode/
+.idea/
+.DS_Store
