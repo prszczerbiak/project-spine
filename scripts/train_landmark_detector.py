@@ -92,7 +92,7 @@ class SpineLandmarkDataset(Dataset):
         if augment:
             self.transform = T.Compose([
                 T.Resize(image_size),
-                T.RandomRotation(degrees=10),
+                #T.RandomRotation(degrees=10),
                 T.ColorJitter(brightness=0.2, contrast=0.2),
                 T.ToTensor(),
                 T.Normalize(mean=_MEAN, std=_STD),
