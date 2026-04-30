@@ -161,13 +161,13 @@ def build_landmark_model(num_landmarks: int = NUM_LANDMARKS) -> nn.Module:
         nn.Linear(in_features, 1024),
         nn.ReLU(inplace=True),
         nn.BatchNorm1d(1024),
-        nn.Dropout(p=0.3),
+        nn.Dropout(p=0.1),
         
         # Warstwa 2: 1024 -> 512
         nn.Linear(1024, 512),
         nn.ReLU(inplace=True),
         nn.BatchNorm1d(512),
-        nn.Dropout(p=0.2),
+        nn.Dropout(p=0.05),
         
         # Warstwa 3: 512 -> 256
         nn.Linear(512, 256),
